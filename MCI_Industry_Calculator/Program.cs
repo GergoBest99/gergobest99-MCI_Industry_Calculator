@@ -193,10 +193,7 @@ namespace MCI_Industry_Calculator
 
                 if (doRestart.ToLower() == "y")
                 {
-                    Console.WriteLine("Clearing console and restarting program...");
-                    Thread.Sleep(1000);
-                    Console.Clear();
-                    Main(null);
+                    restart();
                 }
 
                 else if (doRestart.ToLower() == "n")
@@ -208,6 +205,58 @@ namespace MCI_Industry_Calculator
             }
 
             Console.ReadKey();
+        }
+
+        public static void restart()
+        {
+            totalAluminum = 0;
+            totalSteel = 0;
+            totalSpecialSteel = 0;
+
+
+            totalWire1 = 0;
+            totalWire2 = 0;
+            totalWire3 = 0;
+            totalWire4 = 0;
+
+            totalChip1 = 0;
+            totalChip2 = 0;
+            totalChip3 = 0;
+            totalChip4 = 0;
+            totalChip5 = 0;
+            totalChip6 = 0;
+
+            totalBattery1 = 0;
+            totalBattery2 = 0;
+            totalBattery3 = 0;
+
+
+
+            toCraftWire1 = 0;
+            toCraftWire2 = 0;
+            toCraftWire3 = 0;
+            toCraftWire4 = 0;
+
+            toCraftChip1 = 0;
+            toCraftChip2 = 0;
+            toCraftChip3 = 0;
+            toCraftChip4 = 0;
+            toCraftChip5 = 0;
+            toCraftChip6 = 0;
+
+            toCraftBattery1 = 0;
+            toCraftBattery2 = 0;
+            toCraftBattery3 = 0;
+
+            toCraft = "";
+            toCraftQuantity = 0;
+
+            doRestart = "";
+
+            Console.WriteLine("Clearing console and restarting program...");
+            Thread.Sleep(1000);
+            Console.Clear();
+            Main(null);
         }
 
         public static void calcWire1(long quantity)
@@ -489,10 +538,7 @@ namespace MCI_Industry_Calculator
 
             if (doRestart.ToLower() == "y")
             {
-                Console.WriteLine("Clearing console and restarting program...");
-                Thread.Sleep(1000);
-                Console.Clear();
-                Main(null);
+                restart();
             }
 
             else if (doRestart.ToLower() == "n")
