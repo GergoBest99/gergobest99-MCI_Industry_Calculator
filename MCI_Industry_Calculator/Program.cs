@@ -50,12 +50,15 @@ namespace MCI_Industry_Calculator
         public static long toCraftQuantity = 0;
 
         public static string doRestart = "";
-        public static List<string> validItems = new List<string> { 
+
+        public static List<string> validItems = new List<string> 
+        { 
             "wire1", "wire2", "wire3", "wire4", 
             "chip1", "chip2", "chip3", "chip4", "chip5", "chip6", 
             "battery1", "battery2", "battery3", 
             "computer1", "computer2", "computer3", "computer4", "computer5", "computer6" 
         };
+
         public static Dictionary<string, Action<long>> craftingMethods;
 
         static void Main(string[] args)
