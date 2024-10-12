@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Xml;
+using System.Threading;
 
 namespace MCI_Industry_Calculator
 {
@@ -46,12 +46,15 @@ namespace MCI_Industry_Calculator
 
         public static string toCraft = "";
         public static long toCraftQuantity = 0;
-        public static long quantity = 0;
+
+        public static string doRestart = "";
 
         static void Main(string[] args)
         {
             Console.Write("Give me an item to craft: ");
             toCraft = Console.ReadLine();
+
+            bool wrongItem = false;
 
             Console.Write($"Give me how much you want of {toCraft}: ");
             toCraftQuantity = Convert.ToInt64(Console.ReadLine());
@@ -167,7 +170,42 @@ namespace MCI_Industry_Calculator
                 calcComputer6(toCraftQuantity);
             }
 
-            printCost();
+            else
+            {
+                Console.WriteLine("\nItem not recognized, valid items:\n");
+                Console.WriteLine("wire1, wire2, wire3, wire4");
+                Console.WriteLine("chip1, chip2, chip3, chip4, chip5, chip6");
+                Console.WriteLine("battery1, battery2, battery3");
+                Console.WriteLine("computer1, computer2, computer3, computer4, computer5, computer6");
+
+                wrongItem = true;
+            }
+
+            if (!wrongItem)
+            {
+                printCost();
+            }
+            
+            else
+            {
+                Console.WriteLine("\nDo you want to restart the program? [Y/N]");
+                doRestart = Console.ReadLine();
+
+                if (doRestart.ToLower() == "y")
+                {
+                    Console.WriteLine("Clearing console and restarting program...");
+                    Thread.Sleep(1000);
+                    Console.Clear();
+                    Main(null);
+                }
+
+                else if (doRestart.ToLower() == "n")
+                {
+                    Console.WriteLine("Exiting program...");
+                    Thread.Sleep(1000);
+                    Environment.Exit(0);
+                }
+            }
 
             Console.ReadKey();
         }
@@ -445,6 +483,24 @@ namespace MCI_Industry_Calculator
                 $"Need to craft:\nWire1: {totalWire1}\nWire2: {totalWire2}\nWire3: {totalWire3}\nWire4: {totalWire4}\n\n" +
                 $"Chip1: {totalChip1}\nChip2: {totalChip2}\nChip3: {totalChip3}\nChip4: {totalChip4}\nChip5: {totalChip5}\nChip6: {totalChip6}\n\n" +
                 $"Battery1: {totalBattery1}\nBattery2: {totalBattery2}\nBattery3: {totalBattery3}\n");
+
+            Console.WriteLine("\nDo you want to restart the program? [Y/N]");
+            doRestart = Console.ReadLine();
+
+            if (doRestart.ToLower() == "y")
+            {
+                Console.WriteLine("Clearing console and restarting program...");
+                Thread.Sleep(1000);
+                Console.Clear();
+                Main(null);
+            }
+
+            else if (doRestart.ToLower() == "n")
+            {
+                Console.WriteLine("Exiting program...");
+                Thread.Sleep(1000);
+                Environment.Exit(0);
+            }
         }
     }
 }
