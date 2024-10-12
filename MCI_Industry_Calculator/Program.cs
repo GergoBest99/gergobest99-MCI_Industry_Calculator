@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace MCI_Industry_Calculator
@@ -49,128 +51,37 @@ namespace MCI_Industry_Calculator
 
         public static string doRestart = "";
 
+        public static List<string> variables = new List<string> { 
+            "totalAluminum", "totalSteel", "totalSpecialSteel",
+            "totalWire1", "totalWire2", "totalWire3", "totalWire4", 
+            "totalChip1", "totalChip2", "totalChip3", "totalChip4", "totalChip5", "totalChip6", 
+            "totalBattery1", "totalBattery2", "totalBattery3", 
+            "toCraftWire1", "toCraftWire2", "toCraftWire3", "toCraftWire4", 
+            "toCraftChip1", "toCraftChip2", "toCraftChip3", "toCraftChip4", "toCraftChip5", "toCraftChip6", 
+            "toCraftBattery1", "toCraftBattery2", "toCraftBattery3", 
+        };
+        public static List<long> variableValues = new List<long>();
+        public static List<string> validItems = new List<string> { 
+            "wire1", "wire2", "wire3", "wire4", 
+            "chip1", "chip2", "chip3", "chip4", "chip5", "chip6", 
+            "battery1", "battery2", "battery3", 
+            "computer1", "computer2", "computer3", "computer4", "computer5", "computer6" 
+        };
+        public static Dictionary<string, Action<long>> craftingMethods;
+        public static bool stay = true;
+
         static void Main(string[] args)
         {
-            Console.Write("Give me an item to craft: ");
+            // Add the same amount of zeros to the list as the amount of items in the variables list. (Basically initialize the values)
+            for (long i = 0; i < variables.Count; i++)
+            {
+                variableValues.Add(0);
+            }
+
+            Console.Write("What do you want to craft? ");
             toCraft = Console.ReadLine();
 
-            bool wrongItem = false;
-
-            Console.Write($"Give me how much you want of {toCraft}: ");
-            toCraftQuantity = Convert.ToInt64(Console.ReadLine());
-
-            if (toCraft == "wire1")
-            {
-                toCraftWire1 = toCraftQuantity;
-                calcWire1(toCraftWire1);
-            }
-
-            else if (toCraft == "wire2")
-            {
-                toCraftWire2 = toCraftQuantity;
-                calcWire2(toCraftWire2);
-            }
-
-            else if (toCraft == "wire3")
-            {
-                toCraftWire3 = toCraftQuantity;
-                calcWire3(toCraftWire3);
-            }
-
-            else if (toCraft == "wire4")
-            {
-                toCraftWire4 = toCraftQuantity;
-                calcWire4(toCraftWire4);
-            }
-
-
-            else if (toCraft == "chip1")
-            {
-                toCraftChip1 = toCraftQuantity;
-                calcChip1(toCraftChip1);
-            }
-
-            else if (toCraft == "chip2")
-            {
-                toCraftChip2 = toCraftQuantity;
-                calcChip2(toCraftChip2);
-            }
-
-            else if (toCraft == "chip3")
-            {
-                toCraftChip3 = toCraftQuantity;
-                calcChip3(toCraftChip3);
-            }
-
-            else if (toCraft == "chip4")
-            {
-                toCraftChip4 = toCraftQuantity;
-                calcChip4(toCraftChip4);
-            }
-
-            else if (toCraft == "chip5")
-            {
-                toCraftChip5 = toCraftQuantity;
-                calcChip5(toCraftChip5);
-            }
-
-            else if (toCraft == "chip6")
-            {
-                toCraftChip6 = toCraftQuantity;
-                calcChip6(toCraftChip6);
-            }
-
-
-            else if (toCraft == "battery1")
-            {
-                toCraftBattery1 = toCraftQuantity;
-                calcBattery1(toCraftBattery1);
-            }
-
-            else if (toCraft == "battery2")
-            {
-                toCraftBattery2 = toCraftQuantity;
-                calcBattery2(toCraftBattery2);
-            }
-
-            else if (toCraft == "battery3")
-            {
-                toCraftBattery3 = toCraftQuantity;
-                calcBattery3(toCraftBattery3);
-            }
-
-
-            else if (toCraft == "computer1")
-            {
-                calcComputer1(toCraftQuantity);
-            }
-
-            else if (toCraft == "computer2")
-            {
-                calcComputer2(toCraftQuantity);
-            }
-
-            else if (toCraft == "computer3")
-            {
-                calcComputer3(toCraftQuantity);
-            }
-
-            else if (toCraft == "computer4")
-            {
-                calcComputer4(toCraftQuantity);
-            }
-
-            else if (toCraft == "computer5")
-            {
-                calcComputer5(toCraftQuantity);
-            }
-
-            else if (toCraft == "computer6")
-            {
-                calcComputer6(toCraftQuantity);
-            }
-
-            else
+            if (!validItems.Contains(toCraft))
             {
                 Console.WriteLine("\nItem not recognized, valid items:\n");
                 Console.WriteLine("wire1, wire2, wire3, wire4");
@@ -178,16 +89,6 @@ namespace MCI_Industry_Calculator
                 Console.WriteLine("battery1, battery2, battery3");
                 Console.WriteLine("computer1, computer2, computer3, computer4, computer5, computer6");
 
-                wrongItem = true;
-            }
-
-            if (!wrongItem)
-            {
-                printCost();
-            }
-            
-            else
-            {
                 Console.WriteLine("\nDo you want to restart the program? [Y/N]");
                 doRestart = Console.ReadLine();
 
@@ -202,6 +103,38 @@ namespace MCI_Industry_Calculator
                 }
             }
 
+            Console.Write($"How much do you want to craft of {toCraft}? ");
+            toCraftQuantity = Convert.ToInt64(Console.ReadLine());
+
+            craftingMethods = new Dictionary<string, Action<long>>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "wire1", calcWire1 },
+                { "wire2", calcWire2 },
+                { "wire3", calcWire3 },
+                { "wire4", calcWire4 },
+                { "chip1", calcChip1 },
+                { "chip2", calcChip2 },
+                { "chip3", calcChip3 },
+                { "chip4", calcChip4 },
+                { "chip5", calcChip5 },
+                { "chip6", calcChip6 },
+                { "battery1", calcBattery1 },
+                { "battery2", calcBattery2 },
+                { "battery3", calcBattery3 },
+                { "computer1", calcComputer1 },
+                { "computer2", calcComputer2 },
+                { "computer3", calcComputer3 },
+                { "computer4", calcComputer4 },
+                { "computer5", calcComputer5 },
+                { "computer6", calcComputer6 }
+            };
+
+            if (craftingMethods.TryGetValue(toCraft, out Action<long> method))
+            {
+                method(toCraftQuantity);
+                printCost();
+            }
+            
             Console.ReadKey();
         }
 
@@ -462,7 +395,18 @@ namespace MCI_Industry_Calculator
 
         public static void printCost()
         {
-            while (toCraftWire1 > 0 || toCraftWire2 > 0 || toCraftWire3 > 0 || toCraftWire4 > 0 || toCraftChip1 > 0 || toCraftChip2 > 0 || toCraftChip3 > 0 || toCraftChip4 > 0 || toCraftChip5 > 0 || toCraftChip6 > 0 || toCraftBattery1 > 0 || toCraftBattery2 > 0 || toCraftBattery3 > 0)
+            for (int i = 16; i < variableValues.Count; i++)
+            {
+                if (variableValues[i] > 0){
+                    if (craftingMethods.TryGetValue(validItems[i - 16], out Action<long> method))
+                    {
+
+                    }
+                    i = 16;
+                }
+            }
+
+            /*while (toCraftWire1 > 0 || toCraftWire2 > 0 || toCraftWire3 > 0 || toCraftWire4 > 0 || toCraftChip1 > 0 || toCraftChip2 > 0 || toCraftChip3 > 0 || toCraftChip4 > 0 || toCraftChip5 > 0 || toCraftChip6 > 0 || toCraftBattery1 > 0 || toCraftBattery2 > 0 || toCraftBattery3 > 0)
             {
                 if (toCraftWire4 > 0)
                 {
@@ -531,6 +475,7 @@ namespace MCI_Industry_Calculator
                     calcBattery1(toCraftBattery1);
                 }
             }
+            */
 
             Console.WriteLine($"\n\nTotal: \n\n" +
                 $"Base materials:\nAluminum: {totalAluminum}\nSteel: {totalSteel}\nSpecial Steel: {totalSpecialSteel} \n\n" +
