@@ -50,17 +50,6 @@ namespace MCI_Industry_Calculator
         public static long toCraftQuantity = 0;
 
         public static string doRestart = "";
-
-        public static List<string> variables = new List<string> { 
-            "totalAluminum", "totalSteel", "totalSpecialSteel",
-            "totalWire1", "totalWire2", "totalWire3", "totalWire4", 
-            "totalChip1", "totalChip2", "totalChip3", "totalChip4", "totalChip5", "totalChip6", 
-            "totalBattery1", "totalBattery2", "totalBattery3", 
-            "toCraftWire1", "toCraftWire2", "toCraftWire3", "toCraftWire4", 
-            "toCraftChip1", "toCraftChip2", "toCraftChip3", "toCraftChip4", "toCraftChip5", "toCraftChip6", 
-            "toCraftBattery1", "toCraftBattery2", "toCraftBattery3", 
-        };
-        public static List<long> variableValues = new List<long>();
         public static List<string> validItems = new List<string> { 
             "wire1", "wire2", "wire3", "wire4", 
             "chip1", "chip2", "chip3", "chip4", "chip5", "chip6", 
@@ -68,16 +57,9 @@ namespace MCI_Industry_Calculator
             "computer1", "computer2", "computer3", "computer4", "computer5", "computer6" 
         };
         public static Dictionary<string, Action<long>> craftingMethods;
-        public static bool stay = true;
 
         static void Main(string[] args)
         {
-            // Add the same amount of zeros to the list as the amount of items in the variables list. (Basically initialize the values)
-            for (long i = 0; i < variables.Count; i++)
-            {
-                variableValues.Add(0);
-            }
-
             Console.Write("What do you want to craft? ");
             toCraft = Console.ReadLine();
 
@@ -395,18 +377,7 @@ namespace MCI_Industry_Calculator
 
         public static void printCost()
         {
-            for (int i = 16; i < variableValues.Count; i++)
-            {
-                if (variableValues[i] > 0){
-                    if (craftingMethods.TryGetValue(validItems[i - 16], out Action<long> method))
-                    {
-
-                    }
-                    i = 16;
-                }
-            }
-
-            /*while (toCraftWire1 > 0 || toCraftWire2 > 0 || toCraftWire3 > 0 || toCraftWire4 > 0 || toCraftChip1 > 0 || toCraftChip2 > 0 || toCraftChip3 > 0 || toCraftChip4 > 0 || toCraftChip5 > 0 || toCraftChip6 > 0 || toCraftBattery1 > 0 || toCraftBattery2 > 0 || toCraftBattery3 > 0)
+            while (toCraftWire1 > 0 || toCraftWire2 > 0 || toCraftWire3 > 0 || toCraftWire4 > 0 || toCraftChip1 > 0 || toCraftChip2 > 0 || toCraftChip3 > 0 || toCraftChip4 > 0 || toCraftChip5 > 0 || toCraftChip6 > 0 || toCraftBattery1 > 0 || toCraftBattery2 > 0 || toCraftBattery3 > 0)
             {
                 if (toCraftWire4 > 0)
                 {
@@ -475,7 +446,7 @@ namespace MCI_Industry_Calculator
                     calcBattery1(toCraftBattery1);
                 }
             }
-            */
+            
 
             Console.WriteLine($"\n\nTotal: \n\n" +
                 $"Base materials:\nAluminum: {totalAluminum}\nSteel: {totalSteel}\nSpecial Steel: {totalSpecialSteel} \n\n" +
