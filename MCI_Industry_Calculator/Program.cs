@@ -198,9 +198,7 @@ namespace MCI_Industry_Calculator
 
                 else if (doRestart.ToLower() == "n")
                 {
-                    Console.WriteLine("Exiting program...");
-                    Thread.Sleep(1000);
-                    Environment.Exit(0);
+                    exit();
                 }
             }
 
@@ -257,6 +255,13 @@ namespace MCI_Industry_Calculator
             Thread.Sleep(1000);
             Console.Clear();
             Main(null);
+        }
+
+        public static void exit()
+        {
+            Console.WriteLine("Exiting program...");
+            Thread.Sleep(1000);
+            Environment.Exit(0);
         }
 
         public static void calcWire1(long quantity)
@@ -543,9 +548,7 @@ namespace MCI_Industry_Calculator
 
             else if (doRestart.ToLower() == "n")
             {
-                Console.WriteLine("Exiting program...");
-                Thread.Sleep(1000);
-                Environment.Exit(0);
+                exit();
             }
         }
     }
